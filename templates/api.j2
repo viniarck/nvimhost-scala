@@ -1,0 +1,68 @@
+package nvimhost
+
+// This file was auto generated
+
+import akka.pattern.ask
+import akka.actor.{ActorSystem, Props}
+import akka.util.Timeout
+import java.net.InetSocketAddress
+
+import scala.concurrent.duration._
+import scala.concurrent.{Future, Promise}
+import java.util.concurrent.TimeoutException
+import scala.collection.mutable.ArrayBuffer
+
+import com.typesafe.scalalogging.{LazyLogging}
+
+/** Nvim API wrapper. It uses an async TCP socket to connect to Nvim */
+class NvimAPI(
+    address: InetSocketAddress,
+    _timeout: Duration = 1.second
+) extends LazyLogging {
+  import Conversions._
+  import NvimTypes._
+
+  val system = ActorSystem("NvimApi")
+  val client = system.actorOf(
+    Props(new ClientActor(address, system))
+  )
+
+  {% for func in functions %}
+  def {{func.f_name}}({% for arg in func.args %}{{arg.name}}: {{arg.type}}{% if not loop.last %}, {% endif %}{% endfor %}): Future[{{func.return}}] = {
+    {% if func.is_async %}
+    client.callAsync!({{func.tmpl_arg}})("{{func.name}}"{% for arg in func.args %}, {{arg.name}}{% if not loop.last %} {% endif %}{% endfor %})
+    {% else %}
+    val msg = Parser.newRequestMsg("{{func.name}}"{% for arg in func.args %}, {{arg.name}}{% if not loop.last %} {% endif %}{% endfor %})
+    {% if func.return == "Int" %}
+    val box = IntPromiseBox(Promise[Int]())
+    {% elif func.return == "String" %}
+    val box = StringPromiseBox(Promise[String]())
+    {% elif func.return == "Boolean" %}
+    val box = BooleanPromiseBox(Promise[Boolean]())
+    {% elif func.return == "Double" %}
+    val box = DoublePromiseBox(Promise[Double]())
+    {% elif func.return == "Buffer" %}
+    val box = BufferPromiseBox(Promise[Buffer]())
+    {% elif func.return == "Window" %}
+    val box = WindowPromiseBox(Promise[Window]())
+    {% elif func.return == "TabPage" %}
+    val box = TabPagePromiseBox(Promise[TabPage]())
+    {% elif func.return == "ArrayBuffer[String]" %}
+    val box = ArrayBufferStringPromiseBox(Promise[ArrayBuffer[String]]())
+    {% elif func.return == "ArrayBuffer[Int]" %}
+    val box = ArrayBufferIntPromiseBox(Promise[ArrayBuffer[Int]]())
+    {% elif func.return == "ArrayBuffer[Window]" %}
+    val box = ArrayBufferWindowPromiseBox(Promise[ArrayBuffer[Window]]())
+    {% elif func.return == "ArrayBuffer[Buffer]" %}
+    val box = ArrayBufferBufferPromiseBox(Promise[ArrayBuffer[Buffer]]())
+    {% elif func.return == "ArrayBuffer[TabPage]" %}
+    val box = ArrayBufferTabPagePromiseBox(Promise[ArrayBuffer[TabPage]]())
+    {% elif func.return == "Unit" %}
+    val box = UnitPromiseBox(Promise[Unit]())
+    {% endif %}
+    client ! Request(msg, box)
+    box.p.future
+    {% endif %}
+  }
+  {% endfor %}
+}
