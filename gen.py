@@ -8,10 +8,6 @@ import os
 import subprocess
 import re
 from typing import Dict, Any
-# TODO replace with namedtuple
-# from collections import namedtuple
-#
-# FuncDef = namedtuple("FuncDef", "name f_name ret tmpl_arg is_async args")
 
 
 class InvalidType(Exception):
@@ -114,7 +110,7 @@ def gen_api(pre_print=False, post_print=False, gen_file=True):
             parsed_funcs: Dict[str, Any] = {}
             func_def = gen_func(f_name, name, return_type, tmpl_arg, is_async, args)
             parsed_funcs[f_name] = func_def
-            # TODO change to unit
+            # Ignored for now since all functions are wrapped in a Future
             if return_type == "void":
                 f_name = f_name + "Async"
                 is_async = True
