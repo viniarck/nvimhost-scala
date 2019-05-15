@@ -4,7 +4,6 @@ import scala.reflect.ClassTag
 import scala.reflect.runtime.universe
 import collection.mutable.ArrayBuffer
 
-
 /** Object responsible for runtime reflections and compile time parsing plugin methods */
 object Reflection {
 
@@ -39,9 +38,32 @@ object Reflection {
       .reflectMethod(targetMethod)(args: _*)
   }
 
-  /** These are the supported args and return types of Plugin methods. Json was used to provide seamless convertion with msgpack */
-  def getValidJsonTypes(): Set[String] = {
+  /** These are the supported args types of Plugin methods. Json was used to provide seamless convertion with msgpack */
+  def getValidJsonArgTypes(): Set[String] = {
     Set("ujson.Num", "ujson.Str", "ujson.Bool", "ujson.Arr")
+  }
+
+  /** These are the supported ret types of Plugin methods. Json was used to provide seamless convertion with msgpack */
+  def getValidJsonRetTypes(): Set[String] = {
+    getValidJsonArgTypes() + "Unit"
+  }
+
+  /** Validate the whole plugin */
+  def validatePluginStructure(objectName: String): Boolean = {
+    hasValidName(objectName)
+    hasValidSignatures(objectName)
+    true
+  }
+
+  /** Validate the object name */
+  def hasValidName(objectName: String): Boolean = {
+    val re = """\w+\.\w+\$""".r
+    if (re.findAllIn(objectName).matchData.toList.length == 0) {
+      throw new PluginParsingException(
+        s"The plugin object name should match this regex: '$re' which is expect to match a Scala Object in a certain package."
+      )
+    }
+    true
   }
 
   /** Validation all arguments and return types of a Plugin object. Only methods that start with uppercase letters are validate. Uppercase letters were used to keep coherent with Neovim/Vim */
@@ -62,18 +84,19 @@ object Reflection {
 
     val reArgs = """:\s?(\w+(\.\w+)?)""".r
     val reRet = """\(.*\)(\w+(\.\w+)?)""".r
-    val validTypes: Set[String] = getValidJsonTypes()
+    val validRetTypes: Set[String] = getValidJsonRetTypes()
+    val validArgTypes: Set[String] = getValidJsonArgTypes()
     for (item <- methods) {
       for (m <- reRet.findAllIn(item).matchData.toList) {
-        if (!validTypes.exists(_ == m.group(1)))
+        if (!validRetTypes.exists(_ == m.group(1)))
           throw new PluginParsingException(
-            s"Unsupported return type: ${m.group(1)}. The following types are supported: ${validTypes.toString}"
+            s"Unsupported return type: ${m.group(1)}. The following types are supported: ${validRetTypes.toString}"
           )
       }
       for (m <- reArgs.findAllIn(item).matchData.toList) {
-        if (!validTypes.exists(_ == m.group(1)))
+        if (!validArgTypes.exists(_ == m.group(1)))
           throw new PluginParsingException(
-            s"Unsupported arg type: ${m.group(1)}. The following types are supported: ${validTypes.toString}"
+            s"Unsupported arg type: ${m.group(1)}. The following types are supported: ${validArgTypes.toString}"
           )
       }
     }
@@ -146,13 +169,19 @@ call remote#host#RegisterPlugin('${jarName}', '${jarName}Plugin', [
 """;
     var functionsExpr: String = ""
     for (i <- 0 until methods.length) {
-      functionsExpr = functionsExpr + raw"""\ {'type': 'function', 'name': '${methods(i)}', 'sync': 1, 'opts': {}},"""
+      var syncValue = 1
+      if (methods(i).toLowerCase().contains("async")) syncValue = 0
+      functionsExpr = functionsExpr + raw"""\ {'type': 'function', 'name': '${methods(i)}', 'sync': ${syncValue}, 'opts': {}},"""
       if (i != methods.length - 1) functionsExpr += '\n'
     }
     val tailExpr = raw"""
 \ ])"""
     new PrintWriter(vimFileDstPath.replace("~", System.getenv("HOME"))) {
-      try {write(manifestExpr + functionsExpr + tailExpr)} finally {close}
+      try {
+        write(manifestExpr + functionsExpr + tailExpr)
+      } finally {
+        close
+      }
     }
   }
 }
