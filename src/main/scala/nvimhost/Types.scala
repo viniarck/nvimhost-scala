@@ -38,12 +38,12 @@ class ResponseMsg(_id: Int, _error: upack.Msg, args: upack.Msg*) {
     s"ResponseMsg(${this.id}, ${this.error}, ${this.args})"
   def encode: Array[Byte] = {
     if (_error.isInstanceOf[upack.Str])
-      upickle.default.writeBinary(
+      return upickle.default.writeBinary(
         Seq[upack.Msg](
           upack.Int32(1),
           upack.Int32(this.id),
-          upack.Str(_error.toString()),
-          upack.Str("")
+          upack.Str(_error.str),
+          upack.Null
         )
       )
     if (args.length > 1)
