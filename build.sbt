@@ -1,11 +1,6 @@
 ThisBuild / scalaVersion     := "2.12.8"
-ThisBuild / version          := "0.1.0-SNAPSHOT"
-ThisBuild / organization     := "com.example"
-ThisBuild / organizationName := "example"
-
-mainClass in assembly := Some("nvimhost.MyApp")
-
-assemblyJarName in assembly := "nvimhostscala.jar"
+ThisBuild / version          := "0.1.0"
+ThisBuild / organization     := "io.github.viniarck"
 
 // async TCP actors
 libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.5.22"
