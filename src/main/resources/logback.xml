@@ -6,7 +6,7 @@
     </appender>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
-        <file>/tmp/nvimhostscala.log</file>
+        <file>${NVIM_SCALA_LOG_FILE}</file>
         <append>false</append>
         <encoder>
           <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M\(%line\) - %msg%n</pattern>
