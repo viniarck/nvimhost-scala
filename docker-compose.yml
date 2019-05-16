@@ -1,0 +1,9 @@
+version: '2.1'
+services:
+  nvim:
+    image: registry.gitlab.com/viniarck/nvimhost-scala:test
+    stdin_open: true
+    tty: true
+    build:
+      context: .
+      dockerfile: ./Dockerfile.nvim
