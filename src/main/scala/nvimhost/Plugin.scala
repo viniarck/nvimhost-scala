@@ -119,20 +119,19 @@ class PluginActor(
             var msgId: Int = 0
             var methodName: String = ""
             var argsIndex = 0
-            msgType match {
-              case 0 => {
-                logger.debug("Received a sync request from nvim")
-                msgId = decoded.arr(1).value.asInstanceOf[Double].toInt
-                methodName = decoded.arr(2).value.toString()
-                argsIndex = 3
-              }
-              case 2 => {
-                logger.debug("Received an async request from nvim")
-                methodName = decoded.arr(1).value.toString()
-                argsIndex = 2
-              }
-              case _ => logger.error(s"Received wrong message type: ${msgType}")
+            if (msgType == NvimTypes.MsgKind.Request.id) {
+              logger.debug("Received a sync request from nvim")
+              msgId = decoded.arr(1).value.asInstanceOf[Double].toInt
+              methodName = decoded.arr(2).value.toString()
+              argsIndex = 3
+            } else if (msgType == NvimTypes.MsgKind.Notify.id) {
+              logger.debug("Received an async request from nvim")
+              methodName = decoded.arr(1).value.toString()
+              argsIndex = 2
+            } else {
+              logger.error(s"Received wrong message type: ${msgType}")
             }
+
             val argsIn: ArrayBuffer[Any] =
               decoded.arr(argsIndex).value.asInstanceOf[ArrayBuffer[Any]]
             logger.debug(
@@ -151,7 +150,7 @@ class PluginActor(
               logger.debug(
                 s"Response res: ${res} res class: ${res.getClass.toString}"
               )
-              if (msgType == 0) {
+              if (msgType == NvimTypes.MsgKind.Request.id) {
                 val response: ResponseMsg = res match {
                   case s: ujson.Str =>
                     new ResponseMsg(
@@ -211,7 +210,7 @@ class PluginActor(
               }
             } catch {
               case e: Exception => {
-                logger.error(e.toString)
+                logger.error(s"Exception: ${e.toString}, message: ${e.getMessage}")
                 connection ! Write(
                   ByteString(new ResponseMsg(msgId, upack.Str(e.getMessage)).encode)
                 )
