@@ -16,7 +16,7 @@ abstract class NvimMsg(_typeValue: Int, _method: String, _args: upack.Msg*) {
 
 /** Represent a RPC msgpack request type message. This message is serialized as msgpack, and the transmission leverages async IO/TCP */
 class RequestMsg(_id: Int, method: String, args: upack.Msg*)
-    extends NvimMsg(0, method, args: _*) {
+    extends NvimMsg(NvimTypes.MsgKind.Request.id, method, args: _*) {
   val id = _id
   override def toString = s"SyncMsg(${this.id}, ${this.method}, ${this.args})"
   override def encode: Array[Byte] = {
@@ -40,7 +40,7 @@ class ResponseMsg(_id: Int, _error: upack.Msg, args: upack.Msg*) {
     if (_error.isInstanceOf[upack.Str])
       return upickle.default.writeBinary(
         Seq[upack.Msg](
-          upack.Int32(1),
+          upack.Int32(NvimTypes.MsgKind.Response.id),
           upack.Int32(this.id),
           upack.Str(_error.str),
           upack.Null
@@ -49,7 +49,7 @@ class ResponseMsg(_id: Int, _error: upack.Msg, args: upack.Msg*) {
     if (args.length > 1)
       upickle.default.writeBinary(
         Seq[upack.Msg](
-          upack.Int32(1),
+          upack.Int32(NvimTypes.MsgKind.Response.id),
           upack.Int32(this.id),
           upack.Null,
           upack.Arr(this.args: _*)
@@ -69,7 +69,7 @@ class ResponseMsg(_id: Int, _error: upack.Msg, args: upack.Msg*) {
 
 /** Represent an asynchronous RPC notify message. At the moment it's not used since the synchronous message leverage async IO/TCP communication */
 class NotifyMsg(method: String, args: upack.Msg*)
-    extends NvimMsg(2, method, args: _*) {
+    extends NvimMsg(NvimTypes.MsgKind.Notify.id, method, args: _*) {
   override def toString = s"AsyncMsg(${this.method}, ${this.args})"
   override def encode: Array[Byte] = {
     val msgSeq = Seq[upack.Msg](
@@ -81,11 +81,14 @@ class NotifyMsg(method: String, args: upack.Msg*)
   }
 }
 
-/** To represent Nvim ext msgpack types. In practice, though just an alias is enough */
+/** To represent Nvim types */
 object NvimTypes {
   type Buffer = Int;
   type Window = Int;
   type TabPage = Int;
+  object MsgKind extends Enumeration {
+    val Request, Response, Notify = Value
+  }
 }
 
 /** Implicit conversions to facilitate msgpack parsing */
