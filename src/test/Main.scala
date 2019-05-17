@@ -18,6 +18,9 @@ object DemoPlugin
       "~/demoplugin.jar"
     ) {
 
+  // sync function with single argument
+  def Greet(name: ujson.Str): ujson.Str = s"Hello ${name.str}"
+
   // sync function with multiple arguments
   def SumFromUntil(from: ujson.Num, to: ujson.Num): ujson.Num = {
     Range(from.num.toInt, to.num.toInt).sum
