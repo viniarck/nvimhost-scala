@@ -12,7 +12,70 @@ Neovim (nvim) host plugin provider and API client library in [Scala](https://www
 - Provide a library for high-performance plugins with Scala static types.
 - Pay the JVM startup cost only once (when the plugin is first called).
 
-## WIP
+## Examples
 
-- I'm still working on this library in the next days (tests/CI/docs/examples)
-- The first release will be tagged shortly.
+- You can find the API client code on [Api.scala](./src/main/scala/io/github/viniarck/nvimhost/Api.scala), it's fully asynchronous based on `scala.concurrent.Future`
+- The plugindemo project can be found on [src/test/Main.scala](src/test/Main.scala). In this example, the plugin has several functions, notice that they have to start with an uppercase letter and receive and/or return `ujson` types:
+
+```scala
+package testnvimhost
+
+import java.net.InetSocketAddress
+import scala.concurrent.{Await, ExecutionContext}
+import scala.util.{Success, Failure, Try}
+import scala.concurrent.duration._
+
+import com.typesafe.scalalogging.{LazyLogging}
+
+import nvimhost.NvimTypes._
+import nvimhost.Plugin
+
+object DemoPlugin
+    extends Plugin(
+      new InetSocketAddress("localhost", 7777),
+      "testnvimhost.DemoPlugin$",
+      "~/demoplugin.vim",
+      "~/demoplugin.jar"
+    ) {
+
+  // sync function with single argument
+  def Greet(name: ujson.Str): ujson.Str = s"Hello ${name.str}"
+
+  // sync function with multiple arguments
+  def SumFromUntil(from: ujson.Num, to: ujson.Num): ujson.Num = {
+    Range(from.num.toInt, to.num.toInt).sum
+  }
+
+  // sync function calling async nvim function
+  def SetVarValue(num: ujson.Num): ujson.Num = {
+    nvim.command(s"let g:test_var_value = ${num}")
+    num
+  }
+
+  // sync function that returns true if there's a value > 9
+  def HasValueGt9(arr: ujson.Arr): ujson.Bool = {
+    val filtered = arr.value
+      .filter(_.isInstanceOf[ujson.Num])
+      .filter(_.asInstanceOf[ujson.Num].num > 9)
+      .map(_ => return true)
+    false
+  }
+
+  // async function (which is a function that contains 'async' in its name) calling both sync and async nvim functions
+  def SetVarValueAsync(num: ujson.Num): Unit = {
+
+    nvim.command(s"let g:test_var_value = ${num}")
+
+    val fut = nvim.command("echomsg 'hello world'")
+    Try(Await.result(fut, 1.second)) match {
+      case Success(v) => logger.debug(s"${v}")
+      case Failure(e) => logger.error(e.getMessage)
+    }
+  }
+
+}
+
+object MyApp extends App with LazyLogging {
+  DemoPlugin.serveForever()
+}
+```
