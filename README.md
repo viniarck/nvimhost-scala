@@ -1,3 +1,5 @@
+[![pipeline status](https://gitlab.com/viniarck/nvimhost-scala/badges/master/pipeline.svg)](https://gitlab.com/viniarck/nvimhost-scala/commits/master)
+
 ## nvimhost-scala
 
 Neovim (nvim) host plugin provider and API client library in [Scala](https://www.scala-lang.org/).
