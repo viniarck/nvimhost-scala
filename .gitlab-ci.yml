@@ -17,20 +17,12 @@ scala212-build:
     - sbt assembly
     - ls target/scala-2.12/
     - ls ~
-  only:
-    changes:
-      - src/**/*
-      - system_tests/**/*
   artifacts:
     paths:
      - ./src/test/target/scala-2.12/
 
 scala212-systemtests:
   stage: test
-  only:
-    changes:
-      - src/**/*
-      - system_tests/**
   script:
     - nvim --version
     - cp ./src/test/target/scala-2.12/demoplugin.jar ~/demoplugin.jar
