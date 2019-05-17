@@ -151,7 +151,7 @@ function! F${jarName}(host)
 
   " make sure the plugin host is ready and double check rpc channel id
   let g:${jarName}_channel = 0
-  for count in range(0, 2000)
+  for count in range(0, 8000)
     if g:${jarName}_channel != 0
       break
     endif

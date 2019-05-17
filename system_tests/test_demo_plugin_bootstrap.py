@@ -14,15 +14,17 @@ def spawn_demoplugin() -> int:
 
     spawn_nvim()
 
+    cmd = "scala " + os.path.expanduser("~/demoplugin.jar")
+    print("spawning: ", cmd)
     popen = subprocess.Popen(
-        ["scala " + os.path.expanduser("~/demoplugin.jar")],
+        [cmd],
         shell=True,
         universal_newlines=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
     )
 
-    time.sleep(0.5)
+    time.sleep(10)
     assert not popen.returncode
     plugin_pid = popen.pid
     return plugin_pid
