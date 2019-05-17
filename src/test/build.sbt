@@ -10,4 +10,4 @@ mainClass in assembly := Some("testnvimhost.MyApp")
 // This is the fat JAR that nvim will spawn when the first function call is made
 assemblyJarName in assembly := "demoplugin.jar"
     
-libraryDependencies += "io.github.viniarck" %% "nvimhost-scala" % "0.1.0"
+libraryDependencies += "io.github.viniarck" %% "nvimhost-scala" % "1.0.0"

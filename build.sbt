@@ -1,6 +1,7 @@
-ThisBuild / scalaVersion     := "2.12.8"
-ThisBuild / version          := "0.1.0"
-ThisBuild / organization     := "io.github.viniarck"
+scalaVersion     := "2.12.8"
+version          := "1.0.0"
+organization     := "io.github.viniarck"
+name             := "nvimhost-scala"
 
 // async TCP actors
 libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.5.22"
