@@ -8,7 +8,7 @@ stages:
 
 image: registry.gitlab.com/viniarck/nvimhost-scala:test
 
-scala-build:
+scala212-build:
   stage: build
   script:
     - scalac -version
@@ -24,53 +24,15 @@ scala-build:
     paths:
      - ./target/scala-2.12/
 
-# ldc-unit-tests:
-#   stage: test
-#   only:
-#     changes:
-#       - source/**/*
-#       - system_tests/**
-#   script:
-#     - dub test --build=release --compiler=ldc2 --arch=x86_64
-#
-# ldc-system-tests:
-#   stage: test
-#   only:
-#     changes:
-#       - source/**/*
-#       - system_tests/**
-#   script:
-#     - nvim --version
-#     - cp ./bin/altfile-plugin /usr/local/bin
-#     - cp ./bin/demo-plugin /usr/local/bin
-#     - cp ./bin/nvim-client /usr/local/bin
-#     - which demo-plugin
-#     - pip3 install -r requirements-dev.txt
-#     - python3 -m pytest -s -vv system_tests/test_demo_plugin_bootstrap.py --tb=short
-#     - python3 -m pytest -s -vv system_tests/test_demo_plugin_functions.py --tb=short
-#
-# ## dmd compiler
-#
-# dmd-build:
-#   image: dlang2/dmd-ubuntu:2.084.0
-#   stage: build
-#   only:
-#     changes:
-#       - source/**/*
-#       - system_tests/**
-#   script:
-#     - dmd --version
-#     - dub build --build=release --arch=x86_64
-#     - dub build --build=release --compiler=dmd --arch=x86_64 --config=demoaltfile
-#     - dub build --build=release --compiler=dmd --arch=x86_64 --config=demoplugin
-#     - dub build --build=release --compiler=dmd --arch=x86_64 --config=nvimclient
-#
-# dmd-unit-tests:
-#   image: dlang2/dmd-ubuntu:2.084.0
-#   stage: test
-#   only:
-#     changes:
-#       - source/**/*
-#       - system_tests/**
-#   script:
-#     - dub test --build=release --arch=x86_64
+scala212-systemtests:
+  stage: test
+  only:
+    changes:
+      - src/**/*
+      - system_tests/**
+  script:
+    - nvim --version
+    - cp ./target/scala-2.12/demoplugin.jar ~/demoplugin.jar
+    - pip3 install -r requirements-dev.txt
+    - python3 -m pytest -s -vv system_tests/test_demo_plugin_bootstrap.py --tb=short
+    - python3 -m pytest -s -vv system_tests/test_demo_plugin_functions.py --tb=short
