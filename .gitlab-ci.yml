@@ -4,14 +4,15 @@ variables:
 
 stages:
 - build
-# - test
+- test
 
 image: registry.gitlab.com/viniarck/nvimhost-scala:test
 
 scala212-build:
   stage: build
   script:
-    - scalac -version
+    - sbt publishLocal
+    - ls ~/.ivy2/local/io.github.viniarck/nvimhost-scala_2.12/
     - cd src/test/
     - sbt assembly
     - ls target/scala-2.12/
