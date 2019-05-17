@@ -10,3 +10,5 @@ RUN \
   python3-pip
 
 RUN cd /tmp && curl -LO https://github.com/neovim/neovim/releases/download/v0.3.3/nvim-linux64.tar.gz && tar xzf nvim-linux64.tar.gz && cp /tmp/nvim-linux64/bin/nvim /usr/local/bin && cd /tmp/nvim-linux64/ && mkdir /share && cp -r share/* /share
+
+ENV PATH=$PATH:/root/scala-2.12.8/bin
