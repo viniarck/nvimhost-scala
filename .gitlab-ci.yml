@@ -23,7 +23,7 @@ scala212-build:
       - system_tests/**/*
   artifacts:
     paths:
-     - ./target/scala-2.12/
+     - ./src/test/target/scala-2.12/
 
 scala212-systemtests:
   stage: test
@@ -33,7 +33,7 @@ scala212-systemtests:
       - system_tests/**
   script:
     - nvim --version
-    - cp ./target/scala-2.12/demoplugin.jar ~/demoplugin.jar
+    - cp ./src/test/target/scala-2.12/demoplugin.jar ~/demoplugin.jar
     - pip3 install -r requirements-dev.txt
     - python3 -m pytest -s -vv system_tests/test_demo_plugin_bootstrap.py --tb=short
     - python3 -m pytest -s -vv system_tests/test_demo_plugin_functions.py --tb=short
