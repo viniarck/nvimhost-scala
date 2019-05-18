@@ -14,3 +14,6 @@ libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3"
 libraryDependencies += "com.lihaoyi" %% "upickle" % "0.7.1"
 libraryDependencies += "com.lihaoyi" %% "upack" % "0.7.1"
 libraryDependencies += "org.msgpack" %% "msgpack-scala" % "0.8.13"
+
+// publish
+publishTo := sonatypePublishTo.value
