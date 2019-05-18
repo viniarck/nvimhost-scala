@@ -1,4 +1,4 @@
-[![pipeline status](https://gitlab.com/viniarck/nvimhost-scala/badges/master/pipeline.svg)](https://gitlab.com/viniarck/nvimhost-scala/commits/master)
+[![pipeline status](https://gitlab.com/viniarck/nvimhost-scala/badges/master/pipeline.svg)](https://gitlab.com/viniarck/nvimhost-scala/commits/master)![Maven Central](https://img.shields.io/maven-central/v/io.github.viniarck/nvimhost-scala_2.12.svg?style=plastic)
 
 ## nvimhost-scala
 
