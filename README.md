@@ -79,3 +79,8 @@ object MyApp extends App with LazyLogging {
   DemoPlugin.serveForever()
 }
 ```
+
+## How to compile with SBT
+
+- In the CI [yml file](./.gitlab-ci.yml) there's a complete example how to compile, source (from Neovim) and run the plugin.
+- Use SBT with a similar [build.sbt](./src/test/build.sbt) like the DemoPlugin
