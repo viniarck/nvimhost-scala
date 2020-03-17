@@ -1,10 +1,10 @@
-[![pipeline status](https://gitlab.com/viniarck/nvimhost-scala/badges/master/pipeline.svg)](https://gitlab.com/viniarck/nvimhost-scala/commits/master)![Maven Central](https://img.shields.io/maven-central/v/io.github.viniarck/nvimhost-scala_2.12.svg?style=plastic)
+[![pipeline status](https://gitlab.com/viniarck/nvimhost-scala/badges/master/pipeline.svg)](https://gitlab.com/viniarck/nvimhost-scala/commits/master)![Maven Central](https://img.shields.io/maven-central/v/io.github.viniarck/nvimhost-scala_2.13.svg?style=plastic)
 
 ## nvimhost-scala
 
 Neovim (nvim) host plugin provider and API client library in [Scala](https://www.scala-lang.org/).
 
-![nvimhostd-logo](https://lh3.googleusercontent.com/oKUV7qTP4hP4zYDU9uFRKHdruIJRCmFMmCN8ow6v23M3b1o72vAv7TCxgAqdl_Taypp8iYg6T-_-AXF0UBEaZyIGM4y5Xvg31yp7oZg49OEgWRPgZtD3L2SnlM3bUSLW6tB1rp-nYM02qZesnjC0MPL3HeEy_uGlMmLOAgGsTgicITeNyzTaDOmav5tKIB7KFhbmO4fHdrk0E4D7erNZ9lp9LAz8F7kXPCsQ5VGU6ISQQ4pRsgFvUlqTiB8_uAAJ1jl2LvZ_nQcM9WYNdPZk-2O3mlas0LwvktyQ-lTQ_g4Zq7RM4SVp6jPzEOgBor-8bwtCFrGZP1wEdRSsuHEYrTeNDYg6wiv43GVsQsLInWnQVFy8TkqTSb1NANJwiL01tuY7r3oLuwwpPofcH8h2BGvrl2L2vsTnMQIV3z4Y2r8wL-pJcvbB8ZsDtiHKx6tm3pRbduuSPR1AMMvYQH8DKXOA12a8sL44r_bm3L0z-AqtiuP1OcjAa9h_TvZvGyXYURxVmVkgHJt-xomnBXzVGuL6idsJACj9KqVfsL3wiuPW-ZAJvFHH1VRIZR7sXwb7jdPQXjmQTgRCfjqiwJGMImhl0_zoU7PyOBeNsgOJfXktUGhNi-4TrZgJ41fXZwp4ffy-ke4PzQGaEMOdAlyeE9CBpg1_IA=w600-h180-no)
+![nvimhostd-logo](https://lh3.googleusercontent.com/HggrTKoW_oWnzczz5M1svIGj93weIuiGmcB0gz-VwG4Y19QgugFx-aM6vzoGanivdEcwIcdMTbs-fJR-vDibSAZ1c_8phPfW7i56t1P3Sr4yodrqzm8g23q3sPPPODEfve50kXtbZW6TuHU-8RFCk0WKvsNjbTDutU-ZoH3FlkrvQHIofqiTr3p6yPxehhJAgUHyA21tBPUmiSqhyVhOX7g24e5d6lgOBMP9m8H_LtL9q2QcO4k6Fy8MCb5CqljJKQZRvdfZ2Fa7N4euVdh6qWPGWwAy6ZKzeakfFeDBzyHAlhFVB7zWuvSJ_XEHFVxxAjn2uO9ZKzx9rTNcoA7_benzhUCqzpuV1Zou2Tj44DaUgfo5UNJFIFRVmHQX9k5TVHAZKzWv9ZPIgMRXxQm1uQGMxhZKjCRNWvvKorb0RzJbsnNe4-GRD2YMrbb9NFhX8HzYWG8e8XCrzyycTPoxJ5FlfYz-q5lMfbd_h22Uxet3pxMcEDvreJrf1bw0v1IYytGHYmZRM4-cj_gWEcHf1c-UG9zXZSbPaXc_3v5Xwu-kGKMaayU7C8LolcHXmgkG6abr6tO-T0rSJyfueCYFs2K2zTKWw-ar7Qpohf_rg-fBt7lYUT4u7VtlzOd9siKJgFuHdx_2E1Qf34Il0RJcGTVmsvQem53g5ooix404KwCDAzX1qpYNdc8MdMI=w600-h180-no)
 
 ## Screencast
 

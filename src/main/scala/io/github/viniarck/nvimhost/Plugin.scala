@@ -198,7 +198,7 @@ class PluginActor(
                     new ResponseMsg(
                       msgId,
                       upack.Null,
-                      args: _*
+                      args.toSeq: _*
                     )
                   }
                   case _ =>

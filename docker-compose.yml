@@ -1,7 +1,7 @@
 version: '2.1'
 services:
   nvim:
-    image: registry.gitlab.com/viniarck/nvimhost-scala:test
+    image: registry.gitlab.com/viniarck/nvimhost-scala:2.13
     stdin_open: true
     tty: true
     build:
