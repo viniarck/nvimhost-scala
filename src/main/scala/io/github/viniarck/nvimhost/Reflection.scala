@@ -60,7 +60,7 @@ object Reflection {
     val re = """\w+\.\w+\$""".r
     if (re.findAllIn(objectName).matchData.toList.length == 0) {
       throw new PluginParsingException(
-        s"The plugin object name should match this regex: '$re' which is expect to match a Scala Object in a certain package."
+        s"The plugin object name: '$objectName' should match this regex: '$re' which is expect to match a Scala Object in a certain package."
       )
     }
     true
