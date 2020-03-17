@@ -6,7 +6,7 @@ stages:
 - build
 - test
 
-image: registry.gitlab.com/viniarck/nvimhost-scala:test
+image: registry.gitlab.com/viniarck/nvimhost-scala:2.13
 
 scala213-build:
   stage: build
