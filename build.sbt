@@ -16,4 +16,4 @@ libraryDependencies += "com.lihaoyi" %% "upack" % "1.0.0"
 libraryDependencies += "org.msgpack" % "msgpack-scala_2.13.0-M2" % "0.8.13"
 
 // publish
-publishTo := sonatypePublishTo.value
+publishTo := sonatypePublishToBundle.value
