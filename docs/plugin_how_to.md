@@ -104,7 +104,7 @@ If you still need help, there's a complete example running in the CI with this p
 
 ### How to run a plugin
 
-1. Once you have assembled your Plugin fat jar. You need to run it once in the shell `scala ~/<yourPluginjarFilePath>.jar`, in order to generate the `outVimFilePath` which will have to be sourced from neovim. You'll have to repeat this process whenever you change or update the functions of your plugin to generate the new vim `outVimFilePath` manifest file.
+1. Once you have assembled your Plugin fat jar. You need to run it once in the shell `scala ~/<yourPluginjarFilePath>`, in order to generate the `outVimFilePath` which will have to be sourced from neovim. You'll have to repeat this process whenever you change or update the functions of your plugin to generate the new vim `outVimFilePath` manifest file.
 2. Start neovim with the TCP port your plugin is supposed to use and source your `outVimFilePath` .vim file, `NVIM_LISTEN_ADDRESS=127.0.0.1:7777 nvim -u ~/<outVimFilePath>`.
 3. From neovim invoke your function, for example, `: echo Greet("Foo")` (in the case of the demo project). The first time your plugin will be bootstraped with `jobstart`, the next calls you won't have to pay for the JVM startup cost, since the plugin is already running.
 4. You should see the output of your function as shown in this screencast:
