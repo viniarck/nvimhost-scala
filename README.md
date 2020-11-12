@@ -8,7 +8,7 @@ Neovim (nvim) host plugin provider and API client library in [Scala](https://www
 
 ## Screencast
 
-![screencast](https://s3.gifyu.com/images/ezgif.com-crop7c17fcbf5b8ea8fd.gif)
+![screencast](https://s8.gifyu.com/images/nvimhost-scala.gif)
 
 ## Goals
 
